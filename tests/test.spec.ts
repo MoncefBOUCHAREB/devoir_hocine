@@ -6,14 +6,17 @@ import { communaute } from '../Pages/communaute';
 let EC: EspaceCreateur;
 let CN: connexion;
 let CM: communaute;
+const image = "assets\\image.png"
 
-test("espace createur ",async ({ page }) => {
+test.beforeEach(async ({page})=>{
     EC = new EspaceCreateur(page)
     CN = new connexion(page)
     CM = new communaute(page)
     await page.goto("https://preprod.thrundrz.fr/")
     await EC.clickbtn()
     await expect(page).toHaveURL("https://preprod.thrundrz.fr/devenir-partenaire")
+})
+test(" valide ",{ tag : "@Smoke" },async ({ page }) => {
     await CN.setEmail("c1@createur.fr")
     await CN.setmdps("123456789")
     await CN.click_sc()
@@ -25,6 +28,13 @@ test("espace createur ",async ({ page }) => {
     await CM.btn_nv_annonce()
     await CM.setitre("Soirée concert jazz")
     await CM.setdescription("Venez profiter d'une soirée jazz avec des musiciens locaux. Ouvert à tous, entrée libre.")
+    await CM.ajouter_image(image)
     await CM.click_pub()
     await expect(CM.Elements.msg_succes()).toBeVisible()
+})
+test("invalide  ",{ tag : "@TNR" },async ({ page }) => {
+    await CN.setEmail("c1@createur.fr")
+    await CN.setmdps("1234567891")
+    await CN.click_sc()
+    await expect(page.getByRole('alert')).toContainText("Email ou mot de passe incorrect")
 })

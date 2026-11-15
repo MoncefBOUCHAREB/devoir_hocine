@@ -13,6 +13,8 @@ Elements = {
     Email:        () => this.page.getByRole('textbox', { name: 'Votre email' }),
     mot_de_passe: () => this.page.getByRole('textbox', { name: '********' }),
     se_connecter: () => this.page.getByRole('button', { name: 'Se connecter' }),
+    msg_erreur: () => this.page.getByRole('alert'),
+
 }
 async setEmail(u:string){
     await this.Elements.Email().fill(u);
@@ -23,4 +25,5 @@ async setmdps(p:string){
 async click_sc(){
     await this.Elements.se_connecter().click();
 }
+
 }

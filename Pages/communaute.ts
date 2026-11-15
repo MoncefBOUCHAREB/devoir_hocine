@@ -14,6 +14,7 @@ Elements = {
     click_nv_annonce:   () => this.page.getByRole('button', { name: 'Nouvelle annonce' }),
     titre:   () => this.page.getByRole('textbox', { name: 'Titre de votre annonce' }),
     Description:   () => this.page.getByRole('textbox', { name: 'Écrivez votre description ici…' }),
+    input_image: () => this.page.locator('input[type="file"]'),
     Publier:   () => this.page.getByRole('button', { name: 'Publier' }),
     msg_succes: () => this.page.getByText('Publication créée avec succès'),
 
@@ -33,6 +34,9 @@ async setitre(u:string){
 }
 async setdescription(d:string){
     await this.Elements.Description().fill(d);
+}
+async ajouter_image(I:string){
+    await this.Elements.input_image().setInputFiles(I);
 }
 async click_pub(){
     await this.Elements.Publier().click();
